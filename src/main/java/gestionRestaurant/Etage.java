@@ -1,4 +1,4 @@
-package gestionRestaurant;
+package main.java.gestionRestaurant;
 
 public class Etage {
 	int numeroEtage;
