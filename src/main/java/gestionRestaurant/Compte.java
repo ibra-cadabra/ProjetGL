@@ -1,4 +1,4 @@
-package main.java.gestionRestaurant;
+package gestionRestaurant;
 
 public class Compte {
 	String login;
