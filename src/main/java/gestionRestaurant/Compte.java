@@ -11,7 +11,4 @@ public class Compte {
 		this.password = password;
 		this.role = role;
 	}
-	
-	
-
 }

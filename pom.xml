@@ -1,14 +1,143 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.ul.miage</groupId>
-  <artifactId>gestionRestaurant</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Gestion Restaurant</name>
-  <description>Projet de génie logiciel</description>
-  
-  
-  
-  
-  
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.ul.miage</groupId>
+	<artifactId>gestionRestaurant</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Gestion Restaurant</name>
+	<description>Projet de génie logiciel</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<!-- Les variables de configuration pour le pluging -->
+		<!-- appassembler-maven-plugin qui crée une distribution binaire -->
+		<!-- ====================================================== -->
+		<project.bindist.dir>${project.basedir}/bindist</project.bindist.dir>
+		<!-- Nom de la classe principale -->
+		<project.main.classname>${project.groupId}.${project.artifactId}.Main</project.main.classname>
+		<!-- Nom de la classe principale -->
+		<project.bin.appname>run</project.bin.appname>
+	</properties>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<!-- Gson: Java to Json conversion -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.6</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-sync</artifactId>
+			<version>4.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver-legacy</artifactId>
+			<version>4.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>3.2.0</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- create a distribution archive -->
+				<!-- mvn install ou assembly:single -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>make-zip</id>
+						<phase>install</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>zip.xml</descriptor>
+							</descriptors>
+							<appendAssemblyId>true</appendAssemblyId>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- create bat scripts for apps -->
+				<!-- mvn package | appassembler:assemble -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.10</version>
+				<executions>
+					<execution>
+						<id>win</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<assembleDirectory>${project.bindist.dir}</assembleDirectory>
+							<repositoryLayout>flat</repositoryLayout>
+							<extraJvmArguments>--module-path %JAVAFX_HOME%/lib
+							--add-modules javafx.controls,javafx.fxml</extraJvmArguments>
+							<programs>
+								<program>
+									<platforms>
+										<platform>windows</platform>
+									</platforms>
+									<mainClass>${project.main.classname}</mainClass>
+									<id>${project.bin.appname}</id>
+								</program>
+							</programs>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unix</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+						<configuration>
+							<assembleDirectory>${project.bindist.dir}</assembleDirectory>
+							<repositoryLayout>flat</repositoryLayout>
+							<extraJvmArguments>--module-path $JAVAFX_HOME/lib
+							--add-modules javafx.controls,javafx.fxml</extraJvmArguments>
+							<programs>
+								<program>
+									<platforms>
+										<platform>unix</platform>
+									</platforms>
+									<mainClass>${project.main.classname}</mainClass>
+									<id>${project.bin.appname}</id>
+								</program>
+							</programs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+		</plugins>
+	</build>
 </project>
