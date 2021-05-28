@@ -1,8 +1,11 @@
 package gestionRestaurant;
+
 enum Categorie {Poissons, Viandes}
 enum Menu {Adulte, Enfant}
 
 public class Plat{
+	
+	//Les attrivuts de la classe
 	
 	private int idPlat;
 	private String nom;
@@ -13,6 +16,9 @@ public class Plat{
 	private String menu;
 	private String serveur;
 	private String etat;
+	
+	
+	//Constructeur par defaut de la classe
 	
 	public Plat() {
 		super();
@@ -28,6 +34,8 @@ public class Plat{
 	}
 	
 
+	// Constructeur de la classe
+	
 	public Plat(int idPlat, String nom, double prix, int tempsPreparation, String categorie, String menu) {
 		super();
 		this.idPlat = idPlat;
