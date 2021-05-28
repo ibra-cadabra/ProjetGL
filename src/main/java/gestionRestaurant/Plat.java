@@ -3,6 +3,8 @@ enum Categorie {Poissons, Viandes}
 enum Menu {Adulte, Enfant}
 
 public class Plat{
+	
+	private int idPlat;
 	private String nom;
 	private double prix;
 	private int tempsPreparation;
@@ -14,6 +16,7 @@ public class Plat{
 	
 	public Plat() {
 		super();
+		this.idPlat = 0;
 		this.nom = "";
 		this.prix = 0;
 		this.tempsPreparation = 0;
@@ -25,8 +28,9 @@ public class Plat{
 	}
 	
 
-	public Plat(String nom, double prix, int tempsPreparation, String categorie, String menu) {
+	public Plat(int idPlat, String nom, double prix, int tempsPreparation, String categorie, String menu) {
 		super();
+		this.idPlat = idPlat;
 		this.nom = nom;
 		this.prix = prix;
 		this.tempsPreparation = tempsPreparation;
@@ -34,6 +38,16 @@ public class Plat{
 		this.menu = menu;
 	}
 
+    //Getters and setters
+
+	public int getIdPlat() {
+		return idPlat;
+	}
+
+
+	public void setIdPlat(int idPlat) {
+		this.idPlat = idPlat;
+	}
 
 
 	public String getNom() {
@@ -76,7 +90,6 @@ public class Plat{
 		this.menu = menu;
 	}
 	
-	
 
 	public String getServeur() {
 		return serveur;
@@ -98,13 +111,6 @@ public class Plat{
 	}
 
 
-	@Override
-	public String toString() {
-		return "Plat [nom=" + nom + ", prix=" + prix + ", tempsPreparation=" + tempsPreparation + ", categorie="
-				+ categorie + ", menu=" + menu + "]";
-	}
-
-
 	public int getNumTable() {
 		return numTable;
 	}
@@ -115,7 +121,11 @@ public class Plat{
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Plat [nom=" + nom + ", prix=" + prix + ", tempsPreparation=" + tempsPreparation + ", categorie="
+				+ categorie + ", menu=" + menu + "]";
+	}
 	
 	
 	
