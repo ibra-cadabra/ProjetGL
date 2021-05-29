@@ -6,16 +6,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.function.Consumer;
+import java.util.logging.Logger;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -24,6 +28,9 @@ import com.mongodb.client.MongoDatabase;
 
 public class Main {
 
+	static Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+
+	
 	static Serveur serveur = new Serveur();
 	AssstantService assistant;
 	MaitreHotel maitreHotel;
@@ -50,6 +57,7 @@ public class Main {
 	static MongoDatabase database = mongoClient.getDatabase("restaurant");
 	static MongoCollection<Document> coPlat = database.getCollection("plat");
 	static MongoCollection<Document> coCmd = database.getCollection("commandes");
+	static MongoCollection<Document> coTables = database.getCollection("tables");
 
 	final static String[] menu = { "Ajouter un plat", "Ajouter une boisson" };
 
@@ -215,22 +223,6 @@ public class Main {
 		
 		public static void choixTables() {
 			System.out.println("\nEtage " + serveur.getEtage().getNumeroEtage()+"\n");
-//			//On affiche les plats prêts des enfants
-//			if(!platsEnfantsPrets.isEmpty()) {
-//				System.out.println("COMMANDES ENFANTS PRETES");
-//				for (Plat p : platsEnfantsPrets) 
-//					System.out.println(p.getNom() + " " + p.getEtat() + " Table: "+p.getNumTable());
-//			//On affiche les plats prêts des adultes
-//			}else if(!platsAldultesPrets.isEmpty()) {
-//				System.out.println("COMMANDES ADULTES PRETES");
-//				for (Plat p : platsAldultesPrets)
-//					System.out.println(p.getNom() + " " + p.getEtat() + " Table: "+p.getNumTable());
-//			}
-//			
-//			for (Commande c : commandes) {
-//				System.out.println("Article: "+c.getArticle() + "Prix: "+c.getPrix() + "table: "+choixTable);
-//			}
-//		
 			
 			for (Table t : serveur.getEtage().getTables()) {
 				System.out.println("\nN° Table :" + t.getNumero());
@@ -247,7 +239,6 @@ public class Main {
 			} while (choixTable < 0 || choixTable > serveur.getEtage().getTables().size());				
 		}
 		public static void choixCommande() throws ParseException {
-			//choixTables();
 			System.out.println("\nPRISE DE COMMANDE");
 			choixCommande=0;
 			if (serveur.getEtage().getTables().get(choixTable-1).getCouleur().contains("Vert")) {
@@ -300,7 +291,6 @@ public class Main {
 		}
 
 		public static void continuerCommande() throws ParseException {
-			//choixTables();
 			choixCommande();
 			choixCategorie();
 			choixPlat();
@@ -353,10 +343,10 @@ public class Main {
 				}
 			}
 			//serveur.getEtage().tables.get(choixTable-1).setCouleur("Jaune");
-			if(p.getMenu().contains("Adulte")) {
-				platsAdulte.add(p);
-			}else
-				platsEnfant.add(p);
+//			if(p.getMenu().contains("Adulte")) {
+//				platsAdulte.add(p);
+//			}else
+//				platsEnfant.add(p);
 			ajoutArticle(p);
 			choixCategorie();
 			//CuisinierInterface.init();
@@ -364,7 +354,24 @@ public class Main {
 		public static void validationCommande() {
 			
 		}
-	
+		public static void majTable(int numTable, int numEtage) {
+			DBObject table = new BasicDBObject( "numTable", numTable);
+			DBObject etage = new BasicDBObject( "numEtage", numEtage);
+			BasicDBList andValues = new BasicDBList();
+			andValues.add(table );
+			andValues.add(etage );
+			Bson query = new BasicDBObject( "$and", andValues );
+
+
+			//var query1 = new BasicDBObject( "numTable", new BasicDBObject("$eq", numTable) );
+			//var query2 = new BasicDBObject( "numEtage", new BasicDBObject("$eq", numEtage) );
+			coTables.find(query).forEach((Consumer<Document>) doc -> {
+				System.out.println(doc.toJson());
+
+			});
+			
+			
+		}	
 		@SuppressWarnings({ "unchecked", "unused" })
 		private static void serializeUser(Commande com) throws IOException {
 			GsonBuilder builder = new GsonBuilder();
@@ -374,7 +381,6 @@ public class Main {
 		}
 		
 		public static void ajoutArticle(Plat p) {
-
 			String pattern = "yyyy-MM-dd";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			String datef = simpleDateFormat.format(new Date());
@@ -406,7 +412,6 @@ public class Main {
 			}
 			return countPlat;
 		}
-
 		public static void afficherCategorie() {
 			int numCategorie = 0;
 			for (String cat : categorie) {

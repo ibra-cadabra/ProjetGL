@@ -113,10 +113,6 @@ public class Plat{
 	public void setNumTable(int numTable) {
 		this.numTable = numTable;
 	}
-	
-	
-	
-	
-	
+
 	
 }
