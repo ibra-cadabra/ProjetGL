@@ -32,7 +32,6 @@ public class Main {
 
 	static Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
 
-	
 	static Serveur serveur = new Serveur();
 	AssistantService assistant;
 	MaitreHotel maitreHotel;
@@ -62,12 +61,14 @@ public class Main {
 	static MongoCollection<Document> coTables = database.getCollection("tables");
 	static MongoCollection<Document> coServeurs = database.getCollection("serveurs");
 	static MongoCollection<Document> coUsers = database.getCollection("users");
+	static MongoCollection<Document> coCarteDuJour = database.getCollection("users");
 
 	final static String[] menu = { "Ajouter un plat", "Ajouter une boisson" };
 	
 	public static void main(String[] args) throws ParseException {
 
-		connexion();
+		Directeur.gestionCarteDuJour(scanner, coCarteDuJour, coPlat);
+		//connexion();
 		//MaitreHotelInterface();
 		Etage rdc = new Etage(1);
 		serveur.setEtage(rdc);
@@ -84,7 +85,7 @@ public class Main {
 
 		rdc.setTables(tables);
 
-		ServeurInterface();
+		//ServeurInterface();
 
 	}
 
