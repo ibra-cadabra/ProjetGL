@@ -1,58 +1,30 @@
 package gestionRestaurant;
 
-<<<<<<< HEAD
 
 public class StockMatiereP {
 	String nom;
 	double quantite;
 	String mesure;
-	
-	
-}
-	
-=======
-public class StockMatiereP {
-	
-	private int idMatPremiere;
-	private String nom;
-	private int quantite;
-	private TypeQuantite typeQuantite;
-	
-	//Getters and setters
-	
-	public int getIdMatPremiere() {
-		return idMatPremiere;
-	}
-	public void setIdMatPremiere(int idMatPremiere) {
-		this.idMatPremiere = idMatPremiere;
-	}
 	public String getNom() {
 		return nom;
 	}
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public int getQuantite() {
+	public double getQuantite() {
 		return quantite;
 	}
-	public void setQuantite(int quantite) {
+	public void setQuantite(double quantite) {
 		this.quantite = quantite;
 	}
-	public TypeQuantite getTypeQuantite() {
-		return typeQuantite;
+	public String getMesure() {
+		return mesure;
 	}
-	public void setTypeQuantite(TypeQuantite typeQuantite) {
-		this.typeQuantite = typeQuantite;
+	public void setMesure(String mesure) {
+		this.mesure = mesure;
 	}
-	
-	
 	@Override
 	public String toString() {
-		return "StockMatiereP [idMatPremiere=" + idMatPremiere + ", nom=" + nom + ", quantite=" + quantite
-				+ ", typeQuantite=" + typeQuantite + "]";
+		return "StockMatiereP [nom=" + nom + ", quantite=" + quantite + ", mesure=" + mesure + "]";
 	}
-	
-	
-	
 }
->>>>>>> 7f844e9d4235101ad4b24bc430c37a64fb48d24c

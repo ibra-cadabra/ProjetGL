@@ -7,7 +7,6 @@ public class Plat{
 	
 	//Les attrivuts de la classe
 	
-	private int idPlat;
 	private String nom;
 	private double prix;
 	private int tempsPreparation;
@@ -22,7 +21,6 @@ public class Plat{
 	
 	public Plat() {
 		super();
-		this.idPlat = 0;
 		this.nom = "";
 		this.prix = 0;
 		this.tempsPreparation = 0;
@@ -30,33 +28,10 @@ public class Plat{
 		this.menu = "";
 		this.serveur = "";
 		this.etat = "";
-		this.setNumTable(0);
-	}
-	
-
-	// Constructeur de la classe
-	
-	public Plat(int idPlat, String nom, double prix, int tempsPreparation, String categorie, String menu) {
-		super();
-		this.idPlat = idPlat;
-		this.nom = nom;
-		this.prix = prix;
-		this.tempsPreparation = tempsPreparation;
-		this.categorie = categorie;
-		this.menu = menu;
+		this.numTable=0;
 	}
 
     //Getters and setters
-
-	public int getIdPlat() {
-		return idPlat;
-	}
-
-
-	public void setIdPlat(int idPlat) {
-		this.idPlat = idPlat;
-	}
-
 
 	public String getNom() {
 		return nom;
@@ -128,18 +103,11 @@ public class Plat{
 		this.numTable = numTable;
 	}
 
-	
-<<<<<<< HEAD
-}
-=======
-	
+
 	@Override
 	public String toString() {
-		return "Plat [nom=" + nom + ", prix=" + prix + ", tempsPreparation=" + tempsPreparation + ", categorie="
-				+ categorie + ", menu=" + menu + "]";
+		return "Plat [nom=" + nom + ", prix=" + prix + ", tempsPreparation=" + tempsPreparation + ", numTable="
+				+ numTable + ", categorie=" + categorie + ", menu=" + menu + ", serveur=" + serveur + ", etat=" + etat
+				+ "]";
 	}
-	
-	
-	
 }
->>>>>>> 7f844e9d4235101ad4b24bc430c37a64fb48d24c
