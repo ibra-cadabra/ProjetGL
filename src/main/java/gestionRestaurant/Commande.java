@@ -11,8 +11,16 @@ public class Commande {
 		super();
 		this.nomServeur = nomServeur;
 		this.prix = prix;
-		this.setNomPlat(nomPlat);
+		this.nomPlat=nomPlat;
 		this.date = date;
+	}
+
+	public Commande() {
+		super();
+		this.nomServeur = "";
+		this.prix = 0;
+		this.nomPlat="";
+		this.date = "";
 	}
 
 	public String getNomPlat() {

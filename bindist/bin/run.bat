@@ -72,7 +72,7 @@ if "%JAVACMD%"=="" set JAVACMD=java
 
 if "%REPO%"=="" set REPO=%BASEDIR%\repo
 
-set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\json-simple-1.1.jar;"%REPO%"\gson-2.8.6.jar;"%REPO%"\mongodb-driver-sync-4.2.2.jar;"%REPO%"\bson-4.2.2.jar;"%REPO%"\mongodb-driver-core-4.2.2.jar;"%REPO%"\mongodb-driver-legacy-4.2.2.jar;"%REPO%"\spring-data-mongodb-3.2.0.jar;"%REPO%"\spring-tx-5.3.6.jar;"%REPO%"\spring-context-5.3.6.jar;"%REPO%"\spring-aop-5.3.6.jar;"%REPO%"\spring-beans-5.3.6.jar;"%REPO%"\spring-core-5.3.6.jar;"%REPO%"\spring-jcl-5.3.6.jar;"%REPO%"\spring-expression-5.3.6.jar;"%REPO%"\spring-data-commons-2.5.0.jar;"%REPO%"\slf4j-api-1.7.26.jar;"%REPO%"\gestionRestaurant-0.0.1-SNAPSHOT.jar
+set CLASSPATH="%BASEDIR%"\etc;"%REPO%"\mongo-java-driver-3.10.2.jar;"%REPO%"\json-simple-1.1.jar;"%REPO%"\gson-2.8.6.jar;"%REPO%"\mongodb-driver-sync-4.2.2.jar;"%REPO%"\bson-4.2.2.jar;"%REPO%"\mongodb-driver-core-4.2.2.jar;"%REPO%"\mongodb-driver-legacy-4.2.2.jar;"%REPO%"\spring-data-mongodb-3.2.0.jar;"%REPO%"\spring-tx-5.3.6.jar;"%REPO%"\spring-context-5.3.6.jar;"%REPO%"\spring-aop-5.3.6.jar;"%REPO%"\spring-beans-5.3.6.jar;"%REPO%"\spring-core-5.3.6.jar;"%REPO%"\spring-jcl-5.3.6.jar;"%REPO%"\spring-expression-5.3.6.jar;"%REPO%"\spring-data-commons-2.5.0.jar;"%REPO%"\slf4j-api-1.7.26.jar;"%REPO%"\gestionRestaurant-0.0.1-SNAPSHOT.jar
 
 set ENDORSED_DIR=
 if NOT "%ENDORSED_DIR%" == "" set CLASSPATH="%BASEDIR%"\%ENDORSED_DIR%\*;%CLASSPATH%

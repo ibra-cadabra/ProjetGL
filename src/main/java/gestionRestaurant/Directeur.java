@@ -18,8 +18,8 @@ public class Directeur extends Personnel{
 	public void analyseVente() {
 		
 	}
-	//
-	public void gestionMatPrem() {
+	
+	public void ajouterProduit() {
 		
 	}
 	

@@ -20,11 +20,13 @@ import com.google.gson.GsonBuilder;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 public class Main {
 
@@ -58,11 +60,15 @@ public class Main {
 	static MongoCollection<Document> coPlat = database.getCollection("plat");
 	static MongoCollection<Document> coCmd = database.getCollection("commandes");
 	static MongoCollection<Document> coTables = database.getCollection("tables");
+	static MongoCollection<Document> coServeurs = database.getCollection("serveurs");
+	static MongoCollection<Document> coUsers = database.getCollection("users");
 
 	final static String[] menu = { "Ajouter un plat", "Ajouter une boisson" };
-
+	
 	public static void main(String[] args) throws ParseException {
 
+		connexion();
+		//MaitreHotelInterface();
 		Etage rdc = new Etage(1);
 		serveur.setEtage(rdc);
 		Table table1 = new Table(1, 4, 1, "Vert");
@@ -78,74 +84,70 @@ public class Main {
 
 		rdc.setTables(tables);
 
-		interfaceServeur();
+		ServeurInterface();
 
 	}
 
-	public static void interfaceServeur() throws ParseException {
-		categorie.add("Poissons");
-		categorie.add("Viandes");
-		ServeurGestion.init();
-		//CuisinierInterface.init();
-
-		/*
-		 * for (Table table : serveur.getEtage().tables) { if (choixTable ==
-		 * table.getNumero() && table.getCouleur().contains("Vert")) {
-		 * table.setCouleur("Jaune"); System.out.println("La table " + table.getNumero()
-		 * + " est occupée à présent"); System.out.println("\nPRISE DE COMMANDE"); int i
-		 * = 0; for (String m : menu) { i++; System.out.println(i + ": " + m); } do {
-		 * System.out.print("Choisir l'option : "); //option =
-		 * scChoixCommande.nextInt(); } while (option < 1 || option > menu.length);
-		 * 
-		 * //ajout plat do { if (option == 1) { System.out.println("\nAJOUT D'UN PLAT");
-		 * numCategorie = 0; for (String cat : categorie) { numCategorie++;
-		 * System.out.println(numCategorie + " : " + cat); } do { try (Scanner
-		 * scChoixCategorie = new Scanner(System.in)) {
-		 * System.out.print("\nChoisir la catégorie : "); choixCategorie =
-		 * scChoixCategorie.nextInt(); } } while (choixCategorie < 1 || choixCategorie >
-		 * categorie.size());
-		 * 
-		 * if (choixCategorie == 1) { query.put("categorie", new BasicDBObject("$eq",
-		 * "Poissons")); countPlat = 0; for (Document doc : coPlat.find(query)) {
-		 * countPlat++; jo = (JSONObject) jsonP.parse(doc.toJson());
-		 * System.out.println(countPlat + " : " + jo.get("nom") + ", Prix : " +
-		 * jo.get("prix")); } if (jo.isEmpty())
-		 * System.out.print("Ce plat n'est pas dans la basede données");
-		 * 
-		 * do { try (Scanner scChoixPlat = new Scanner(System.in)) {
-		 * System.out.print("Choisir le plat : "); choixPlat = scChoixPlat.nextInt(); }
-		 * } while (choixPlat < 1 || choixPlat > countPlat);
-		 * 
-		 * // System.out.println(choixPlat); } else { query.put("categorie", new
-		 * BasicDBObject("$eq", "Viandes")); countPlat = 0; for (Document doc :
-		 * coPlat.find(query)) { countPlat++; jo = (JSONObject)
-		 * jsonP.parse(doc.toJson()); System.out.println(countPlat + " : " +
-		 * jo.get("nom") + ", Prix : " + jo.get("prix")); } if (jo.isEmpty()) {
-		 * System.out.println("Absent de la base de données"); } else { do { try
-		 * (Scanner scChoixPlat = new Scanner(System.in)) {
-		 * System.out.println("Choisir le plat : "); choixPlat = scChoixPlat.nextInt();
-		 * } } while (choixPlat < 1 || choixPlat > countPlat); } } } } while
-		 * (jo.isEmpty()); } }
-		 */
-
+	public static void MaitreHotelInterface() throws ParseException {
+		MaitreHotelGestion.affecterServeurToTable();
 	}
 
-	public void interfaceAssistantService() {
+	public static class MaitreHotelGestion {
+		public static boolean saisirNomServeur() throws ParseException {
+			String nom="";
+			JSONObject jo=new JSONObject();
+			do {
+				try {
+					System.out.print("Nom du serveur: ");
+					scanner = new Scanner(System.in);
+					nom=scanner.nextLine();					
+				}catch(InputMismatchException e) {
+					System.out.println("Entre des chaines de caractères");
+					saisirNomServeur();
+				}	
+			}while(nom.length() < 2);
+			for(Document doc: coServeurs.find()) {
+				jo = (JSONObject) jsonP.parse(doc.toJson());
+				if(jo.get("nom").toString().contains(nom))
+					return true;
+			}
+			return false;
+		}
 
+		
+		public static boolean existServeur(String nom) throws ParseException {
+			JSONObject jo=new JSONObject();
+			for(Document docu: coServeurs.find()) {
+				jo = (JSONObject) jsonP.parse(docu.toJson());
+				if(jo.get("nomServeur").toString().contains(nom))
+					return true;
+			}
+			return false;
+		}
+		public static void affecterServeurToTable() throws ParseException {
+			JSONObject jo=new JSONObject();
+			new Document();
+
+			
+			for(Document doc: coTables.find()) {
+				jo = (JSONObject) jsonP.parse(doc.toJson());
+				System.out.println(jo.get("numTable"));
+				System.out.println(jo.get("numEtage"));
+				System.out.println(jo.get("nbPlaces"));
+				System.out.println(jo.get("nomServeur"));
+				System.out.println(jo.get("nomAssistant"));
+				System.out.println(jo.get("couleur"));
+				for(Document docu: coServeurs.find()) {
+					jo = (JSONObject) jsonP.parse(docu.toJson());
+
+					
+				}
+
+			}
+		}
 	}
 
-	public void interfaceMaitreHotel() {
-
-	}
-
-	public void interfaceCuisinier() {
-
-	}
-
-	public void interfaceDirecteur() {
-
-	}
-	public class DirecteurInterface{
+	public static void interfaceCuisinier() {
 
 	}
 
@@ -230,13 +232,14 @@ public class Main {
 				System.out.println("---------------------------------------");
 			}
 			do {
-				System.out.print("Choisir la table : ");
 				try {
+					System.out.print("Choisir la table : ");
+					scanner = new Scanner(System.in);
 					choixTable = scanner.nextInt();
 				} catch (InputMismatchException e) {
 					System.out.println("Entrer un nombre entier");
 				}
-			} while (choixTable < 0 || choixTable > serveur.getEtage().getTables().size());				
+			} while (choixTable < 1 || choixTable > serveur.getEtage().getTables().size());				
 		}
 		public static void choixCommande() throws ParseException {
 			System.out.println("\nPRISE DE COMMANDE");
@@ -244,23 +247,28 @@ public class Main {
 			if (serveur.getEtage().getTables().get(choixTable-1).getCouleur().contains("Vert")) {
 				afficherMenu();
 				do {
-					try {	
-						System.out.print("\nChoisir l'option : ");
+					try {
+						//choixCommande=0;
+						System.out.print("Choisir l'option : ");
+						scanner = new Scanner(System.in);
 						choixCommande = scanner.nextInt();
+						if(choixCommande==0) {
+							if(!commandes.isEmpty())
+								serveur.getEtage().getTables().get(choixTable-1).setCouleur("Jaune");
+							init();
+						}
+						if(choixCommande==2) {
+							System.out.println("Pas de boissons actuellement !");
+							choixCommande();
+						}
 					}catch(InputMismatchException e) {
-						System.out.println("Mettez une valeur entière");
+						System.out.println("Mettez une valeur entière pour la catégorie");
+						choixCommande();
 					}
-				} while (choixCommande < 0 || choixCommande > menu.length);
+				} while (choixCommande < 0 || choixCommande > 2);
 			}
-			if(choixCommande==0) {
-				if(!commandes.isEmpty())
-					serveur.getEtage().getTables().get(choixTable-1).setCouleur("Jaune");
-				init();
-			}
-			if(choixCommande==2) {
-				System.out.println("Pas de boissons actuellement !");
-				choixCommande();
-			}
+
+
 		}
 		public static void choixCategorie() throws ParseException {
 			System.out.println("\nChoix de la catégorie");
@@ -268,10 +276,11 @@ public class Main {
 			do {
 				try{
 					System.out.print("\nChoisir la catégorie : ");
+					scanner = new Scanner(System.in);
 					choixCategorie = scanner.nextInt();
 					if(choixCategorie==0)
 						init();
-					else if(choixCategorie==2){
+					if(choixCategorie==2){
 						categorieChoisie="Viandes";
 						System.out.println("Pas de viandes actuellement");
 						choixCategorie();
@@ -280,20 +289,9 @@ public class Main {
 					}
 				}catch(InputMismatchException m) {
 					System.out.println("Entrer un entier naturel");
+					choixCategorie();
 				}
 			} while (choixCategorie < 0 || choixCategorie > categorie.size());
-		}
-		public static void init() throws ParseException {
-			choixTables();
-			choixCommande();
-			choixCategorie();
-			choixPlat();
-		}
-
-		public static void continuerCommande() throws ParseException {
-			choixCommande();
-			choixCategorie();
-			choixPlat();
 		}
 		public static void choixPlat() throws ParseException {
 			int nbPlat = afficherPlat();
@@ -301,11 +299,13 @@ public class Main {
 			do {
 				try{
 					System.out.print("Choisir le plat : ");
+					scanner = new Scanner(System.in);
 					choixPlat = scanner.nextInt();
 					if(choixPlat==0)
 						init();
 				}catch(InputMismatchException m) {
 					System.out.println("Entrer un entier naturel");
+					choixPlat();
 				}
 			} while (choixPlat < 0 || choixPlat > nbPlat);
 			do {
@@ -317,11 +317,28 @@ public class Main {
 				}
 			} while (option < 0 || option > nbPlat);
 			if(option==1) {
+				ajoutArticle();
 				continuerCommande();
 			}else {
+				//Occupation de la table
 				serveur.getEtage().getTables().get(choixTable-1).setCouleur("Jaune");
+				//validation de la commande
+				
+				//recommence
 				init();
 			}
+		}
+				
+		public static void init() throws ParseException {
+			choixTables();
+			choixCommande();
+			choixCategorie();
+			choixPlat();
+		}
+		public static void continuerCommande() throws ParseException {
+			choixCommande();
+			choixCategorie();
+			choixPlat();
 		}
 		public static void enregistrementPlat() throws ParseException {
 			int j=0;
@@ -347,13 +364,14 @@ public class Main {
 //				platsAdulte.add(p);
 //			}else
 //				platsEnfant.add(p);
-			ajoutArticle(p);
+			//ajoutArticle(p);
 			choixCategorie();
 			//CuisinierInterface.init();
 		}
 		public static void validationCommande() {
-			
+
 		}
+		
 		public static void majTable(int numTable, int numEtage) {
 			DBObject table = new BasicDBObject( "numTable", numTable);
 			DBObject etage = new BasicDBObject( "numEtage", numEtage);
@@ -372,20 +390,34 @@ public class Main {
 			
 			
 		}	
-		@SuppressWarnings({ "unchecked", "unused" })
-		private static void serializeUser(Commande com) throws IOException {
+		@SuppressWarnings({ "unchecked" })
+		public static void serializeUser(Commande com) throws IOException {
 			GsonBuilder builder = new GsonBuilder();
 			builder.setPrettyPrinting();
 			Gson gson = builder.create();
 			jaCommande.add(gson.toJson(com));
 		}
-		
-		public static void ajoutArticle(Plat p) {
+		public static void ajoutArticle() throws ParseException {
 			String pattern = "yyyy-MM-dd";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 			String datef = simpleDateFormat.format(new Date());
-			Commande com = new Commande(serveur.getNom(), p.getPrix(), p.getNom(), datef);
-			commandes.add(com);
+			Commande com = new Commande();
+			JSONObject jsonO=new JSONObject();
+			int countPlat=0;
+			
+			for (Document doc : coPlat.find()) {// On affiche la liste des plats
+				countPlat++;
+				jsonO = (JSONObject) jsonP.parse(doc.toJson());
+				if(countPlat==choixPlat) {
+					com.setNomPlat(jsonO.get("nom").toString());
+					com.setNomServeur(serveur.getNom());
+					com.setPrix(Double.parseDouble(jsonO.get("prix").toString()));
+					com.setTempsPreparation(Integer.parseInt(jsonO.get("tempsPreparation").toString()));
+					com.setDate(datef);
+					commandes.add(com);
+				}
+				System.out.println(countPlat + " : " + jsonO.get("nom") + ", Prix : " + jsonO.get("prix"));
+			}
 		}
 		public static void afficherMenu() {
 			int i = 0;
@@ -421,4 +453,52 @@ public class Main {
 			System.out.println(0 + " : QUITTER");
 		}
 	}
+
+	public static void ServeurInterface() throws ParseException {
+		categorie.add("Poissons");
+		categorie.add("Viandes");
+		ServeurGestion.init();
+	}
+
+	//Connexion à la 
+	public static void connexion() throws ParseException {
+		String login="";
+		String password="";
+		System.out.println("Bienvenue sur l'application - CONNEXION");
+
+		System.out.print("Login: ");
+		login=scanner.nextLine();
+		System.out.print("Password: ");
+		password=scanner.nextLine();
+		chercherLogin(login,password);		
+	}
+	public static void chercherLogin(String login, String password) throws ParseException {
+
+		ArrayList<Document> docs = new ArrayList<Document>();
+
+		FindIterable<Document> query = coUsers.find(and(eq("login", login),
+                eq("password", password)));
+		System.out.println("me---"+query.toString());
+
+		query.into(docs);
+
+		for (Document doc : docs) {
+			JSONObject jo = (JSONObject) jsonP.parse(doc.toJson());
+
+			if(jo.get("fonction").toString().equalsIgnoreCase("serveur")) {
+				System.out.println("serveur---");
+				ServeurGestion.init();
+			}else if(jo.get("fonction").toString().equalsIgnoreCase("directeur")) {
+				//DirecteurGestion.init();
+			}else if(jo.get("fonction").toString().equalsIgnoreCase("cuisinier")) {
+				//CuisinierInterface();
+			}else if(jo.get("fonction").toString().equalsIgnoreCase("assistant")) {
+				//AssistantInterface();
+			}else {
+				System.out.println("maitre---");
+				MaitreHotelInterface();
+			}
+		}
+	}
+
 }
