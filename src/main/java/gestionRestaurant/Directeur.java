@@ -13,7 +13,12 @@ public class Directeur extends Personnel{
 		super();
 	}
 	
-	public void ajouterProduit(Scanner scanner, MongoCollection<Document> collection) {
+	public static void init(Scanner scanner, MongoCollection<Document> collection) {
+		System.out.println("Ajouter un produit");
+		ajouterProduit(scanner, collection);
+	}
+	
+	public static void ajouterProduit(Scanner scanner, MongoCollection<Document> collection) {
 		String nom = "non";
 		String mesuration= "kilo litre";
 		int quantite=0;
