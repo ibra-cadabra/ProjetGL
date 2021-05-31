@@ -1,6 +1,7 @@
 package gestionRestaurant;
 
-public class Serveur extends Personnel{
+public class Serveur extends Personnel {
+	
 	Etage etage;
 
 	public Serveur(Etage etage) {
