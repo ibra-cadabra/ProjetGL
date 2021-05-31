@@ -7,6 +7,8 @@ public class Commande {
 	private int tempsPreparation;
 	private String date;
 	
+	//Construit la classe commande
+
 	public Commande(String nomServeur, double prix, String nomPlat, String date) {
 		super();
 		this.nomServeur = nomServeur;
@@ -22,6 +24,9 @@ public class Commande {
 		this.nomPlat="";
 		this.date = "";
 	}
+	
+	//Getters and setters de la classe commande
+
 
 	public String getNomPlat() {
 		return nomPlat;
@@ -61,6 +66,11 @@ public class Commande {
 
 	public void setDate(String date) {
 		this.date = date;
-	}
-		
+	}	
+
+	@Override
+	public String toString() {
+		return "Commande [serveur=" + nomServeur + ", prix=" + prix + ", nomPlat=" + nomPlat
+				+ ", date=" + date + "]";
+	}	
 }

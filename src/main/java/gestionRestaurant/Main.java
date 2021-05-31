@@ -34,7 +34,7 @@ public class Main {
 
 	
 	static Serveur serveur = new Serveur();
-	AssstantService assistant;
+	AssistantService assistant;
 	MaitreHotel maitreHotel;
 	Directeur directeur;
 	Cuisinier cuisinier;

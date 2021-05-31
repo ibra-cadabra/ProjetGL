@@ -1,8 +1,12 @@
 package gestionRestaurant;
+
 enum Categorie {Poissons, Viandes}
 enum Menu {Adulte, Enfant}
 
 public class Plat{
+	
+	//Les attributs de la classe
+	
 	private String nom;
 	private double prix;
 	private int tempsPreparation;
@@ -11,6 +15,9 @@ public class Plat{
 	private String menu;
 	private String serveur;
 	private String etat;
+	
+	
+	//Constructeur par defaut de la classe
 	
 	public Plat() {
 		super();
@@ -25,7 +32,9 @@ public class Plat{
 	}
 	
 
-	public Plat(String nom, double prix, int tempsPreparation, String categorie, String menu) {
+	// Constructeur de la classe
+	
+	public Plat(int idPlat, String nom, double prix, int tempsPreparation, String categorie, String menu) {
 		super();
 		this.nom = nom;
 		this.prix = prix;
@@ -34,7 +43,7 @@ public class Plat{
 		this.menu = menu;
 	}
 
-
+    //Getters and setters
 
 	public String getNom() {
 		return nom;
@@ -76,7 +85,6 @@ public class Plat{
 		this.menu = menu;
 	}
 	
-	
 
 	public String getServeur() {
 		return serveur;
@@ -98,13 +106,6 @@ public class Plat{
 	}
 
 
-	@Override
-	public String toString() {
-		return "Plat [nom=" + nom + ", prix=" + prix + ", tempsPreparation=" + tempsPreparation + ", categorie="
-				+ categorie + ", menu=" + menu + "]";
-	}
-
-
 	public int getNumTable() {
 		return numTable;
 	}
@@ -112,7 +113,5 @@ public class Plat{
 
 	public void setNumTable(int numTable) {
 		this.numTable = numTable;
-	}
-
-	
+	}	
 }
