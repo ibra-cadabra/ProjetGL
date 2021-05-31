@@ -3,27 +3,28 @@ package gestionRestaurant;
 
 public class StockMatiereP {
 	String nom;
-	int quantite;
+	double quantite;
 	String mesure;
-	
-	//Getters and setters
 	public String getNom() {
 		return nom;
 	}
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public int getQuantite() {
+	public double getQuantite() {
 		return quantite;
 	}
-	public void setQuantite(int quantite) {
+	public void setQuantite(double quantite) {
 		this.quantite = quantite;
 	}
-	
-	
+	public String getMesure() {
+		return mesure;
+	}
+	public void setMesure(String mesure) {
+		this.mesure = mesure;
+	}
 	@Override
 	public String toString() {
-		return "StockMatiereP [nom=" + nom + ", quantite=" + quantite
-				+"]";
-	}	
+		return "StockMatiereP [nom=" + nom + ", quantite=" + quantite + ", mesure=" + mesure + "]";
+	}
 }

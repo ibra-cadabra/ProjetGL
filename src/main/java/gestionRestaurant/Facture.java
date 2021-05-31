@@ -1,24 +1,30 @@
 package gestionRestaurant;
 
-import java.util.Date;
-
 public class Facture {
 	
 	//Les attributs de la classe
+	
+	private int idFacture;
 	private double montant;
-	private Date date;
-	private Commande cmde;
+	private String date;
+	private Commande[] cmde;
 	
 	//Constructeur de la classe
-	
-	public Facture(double montant, Date date, Commande cmde) {
+	public Facture(int idFacture, double montant, String date, Commande[] cmde) {
 		super();
+		this.idFacture = idFacture;
 		this.montant = montant;
 		this.date = date;
 		this.cmde = cmde;
 	}
-	
-	//Getters and setters
+
+	public int getIdFacture() {
+		return idFacture;
+	}
+
+	public void setIdFacture(int idFacture) {
+		this.idFacture = idFacture;
+	}
 
 	public double getMontant() {
 		return montant;
@@ -28,24 +34,19 @@ public class Facture {
 		this.montant = montant;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
-	public Commande getCmde() {
+	public Commande[] getCmde() {
 		return cmde;
 	}
 
-	public void setCmde(Commande cmde) {
+	public void setCmde(Commande[] cmde) {
 		this.cmde = cmde;
 	}
-
-	@Override
-	public String toString() {
-		return "Facture [montant=" + montant + ", date=" + date + ", cmde=" + cmde + "]";
-	}	
 }

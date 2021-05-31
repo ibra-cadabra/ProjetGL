@@ -21,6 +21,7 @@ public class Directeur extends Personnel {
 		super();
 	}
 
+
 	public static boolean chercherPlat(String plat, MongoCollection<Document> collection) throws ParseException {
 
 		JSONParser jsonP = new JSONParser();
@@ -114,7 +115,9 @@ public class Directeur extends Personnel {
 		collectionC.insertOne(doc);
 	}
 
-	public void ajouterProduit(Scanner scanner, MongoCollection<Document> collection) {
+	
+	public static void ajouterProduit(Scanner scanner, MongoCollection<Document> collection) {
+
 		String nom = "non";
 		String mesuration = "kilo litre";
 		int quantite = 0;

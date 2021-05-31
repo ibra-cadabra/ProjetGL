@@ -5,7 +5,7 @@ enum Menu {Adulte, Enfant}
 
 public class Plat{
 	
-	//Les attributs de la classe
+	//Les attrivuts de la classe
 	
 	private String nom;
 	private double prix;
@@ -28,19 +28,7 @@ public class Plat{
 		this.menu = "";
 		this.serveur = "";
 		this.etat = "";
-		this.setNumTable(0);
-	}
-	
-
-	// Constructeur de la classe
-	
-	public Plat(int idPlat, String nom, double prix, int tempsPreparation, String categorie, String menu) {
-		super();
-		this.nom = nom;
-		this.prix = prix;
-		this.tempsPreparation = tempsPreparation;
-		this.categorie = categorie;
-		this.menu = menu;
+		this.numTable=0;
 	}
 
     //Getters and setters
@@ -113,5 +101,13 @@ public class Plat{
 
 	public void setNumTable(int numTable) {
 		this.numTable = numTable;
-	}	
+	}
+
+
+	@Override
+	public String toString() {
+		return "Plat [nom=" + nom + ", prix=" + prix + ", tempsPreparation=" + tempsPreparation + ", numTable="
+				+ numTable + ", categorie=" + categorie + ", menu=" + menu + ", serveur=" + serveur + ", etat=" + etat
+				+ "]";
+	}
 }
